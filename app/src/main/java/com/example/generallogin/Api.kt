@@ -2,28 +2,32 @@ package com.example.generallogin
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.annotations.SerializedName
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.Headers
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface Api {
     //@Headers("app/json")
-    @POST("/front")
+    @POST("/app/login")
     fun userLogin(
         @Body jsonParams : UserModel,
     ): Call<LoginBackendResponse>
 
+    //2 -> idx
+    @POST("/app/users/2")
+    fun PostUserToken(
+        @Header("Authorization") accessToken : UserToken,
+    ):Call<LoginBackendResponse>
+
+    @GET("/app/users/2")
+    fun GetUserInfo(
+        @Header("Authorization") accessToken: String,
+    ):Call<UserDetailResponse>
 
     companion object {
-        private const val BASE_URL = "https://8e27-211-106-114-186.jp.ngrok.io/"
+        private const val BASE_URL = "https://1d52-211-106-114-186.jp.ngrok.io/"
         val gson : Gson =   GsonBuilder().setLenient().create();
 
         //intercepter 고민..
